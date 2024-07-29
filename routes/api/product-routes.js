@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
       include: [{ model: Category}, { model: Tag, through: ProductTag, as: 'product_tags'}]
     });
     res.status(200).json(productData);
-  } catch {
+  } catch (error) {
     res.status(500).json(error);
   }
 });
@@ -22,7 +22,7 @@ router.get('/:id', async (req, res) => {
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
   try {
-    const productData = await Product.findByPk(req.body.id, {
+    const productData = await Product.findByPk(req.params.id, {
       include: [{ model: Category}, { model: Tag, through: ProductTag, as: 'product_tags'}]
     });
 
@@ -37,6 +37,16 @@ router.get('/:id', async (req, res) => {
     res.status(500).json(err)
   }
 });
+
+// router.post('/', async (req, res) => {
+//   // create a new tag
+//   try {
+//     const productData = await Product.create(req.body);
+//     res.status(200).json(productData);
+//   } catch (err) {
+//     res.status(400).json(err);
+//   }
+// });
 
 // create new product
 router.post('/', (req, res) => {
@@ -69,6 +79,26 @@ router.post('/', (req, res) => {
       res.status(400).json(err);
     });
 });
+
+// router.put('/:id', async (req, res) => {
+//   // update a tag's name by its `id` value
+//   try {
+//     const productData = await Product.update(req.body, {
+//       where: {
+//         id: req.params.id,
+//       }
+//     });
+
+//     if(!productData) {
+//       res.status(404).json({ message: 'No tag found with that id'})
+//     };
+
+//     res.status(200).json(productData);
+
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 
 // update product
 router.put('/:id', (req, res) => {
@@ -120,7 +150,7 @@ router.delete('/:id', async (req, res) => {
   try {
     const productData = await Product.destroy({
       where: {
-        id: req.body.id
+        id: req.params.id
       }
     });
 
