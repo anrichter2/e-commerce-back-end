@@ -14,12 +14,18 @@ After installation is done you open the terminal and run the application with ei
 
 Below are screenshots showing insomnia requests being answered.
 
-![Application at start]()
+![Application GET all](./images/get-all.png)
 
-![Application showing data tables]()
+![Application GET one by id](./images/get-one.png)
+
+![Application POST](./images/post-one.png)
+
+![Application UPDATE](./images/put-one.png)
+
+![Application DELETE](./images/delete-one.png)
 
 Link to a walkthrough video showing the application in action:
-[Walkthrough Video]()
+[Walkthrough Video](https://drive.google.com/file/d/1eKcH9W4WF6pn2SOXpgiKCkO_Wie-kbS6/view?usp=sharing)
 
 ## Credits
 

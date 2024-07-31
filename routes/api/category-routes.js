@@ -3,9 +3,8 @@ const { Category, Product } = require('../../models');
 
 // The `/api/categories` endpoint
 
+// find all categories
 router.get('/', async (req, res) => {
-  // find all categories
-  // be sure to include its associated Products
   try {
     const categoryData = await Category.findAll({
       include: [{ model: Product}]
@@ -16,16 +15,15 @@ router.get('/', async (req, res) => {
   }  
 });
 
+// find one category by its `id` value
 router.get('/:id', async (req, res) => {
-  // find one category by its `id` value
-  // be sure to include its associated Products
   try {
     const categoryData = await Category.findByPk(req.params.id, {
       include: [{ model: Product}]
     });
 
     if (!categoryData) {
-      res.status(404).json({ message: 'no category found with this id' });
+      res.status(404).json({ message: 'No category found with this id'});
       return
     };
 
@@ -36,8 +34,8 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// create a new category
 router.post('/', async (req, res) => {
-  // create a new category
   try {
     const categoryData = await Category.create(req.body);
     res.status(200).json(categoryData);
@@ -46,8 +44,8 @@ router.post('/', async (req, res) => {
   }
 });
 
+// update a category by its `id` value
 router.put('/:id', async (req, res) => {
-  // update a category by its `id` value
   try {
     const categoryData = await Category.update(req.body, {
       where: {
@@ -56,7 +54,7 @@ router.put('/:id', async (req, res) => {
     });
 
     if(!categoryData) {
-      res.status(404).json({ message: 'No tag found with that id'})
+      res.status(404).json({ message: 'No category found with that id'})
     };
 
     res.status(200).json(categoryData);
@@ -66,9 +64,15 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+// delete a category by its `id` value
 router.delete('/:id', async (req, res) => {
-  // delete a category by its `id` value
   try {
+    // For some reason my onDelete constraint isn't working so I have to manually delete products with this category
+    const productData = await Product.destroy({
+      where: {
+        category_id: req.params.id
+      }
+    });
     const categoryData = await Category.destroy({
       where: {
         id: req.params.id
@@ -76,7 +80,7 @@ router.delete('/:id', async (req, res) => {
     });
 
     if(!categoryData) {
-      res.status(404).json({ message: 'No tag found with that id'})
+      res.status(404).json({ message: 'No category found with that id'})
     };
 
     res.status(200).json(categoryData);
