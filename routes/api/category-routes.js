@@ -67,12 +67,6 @@ router.put('/:id', async (req, res) => {
 // delete a category by its `id` value
 router.delete('/:id', async (req, res) => {
   try {
-    // For some reason my onDelete constraint isn't working so I have to manually delete products with this category
-    const productData = await Product.destroy({
-      where: {
-        category_id: req.params.id
-      }
-    });
     const categoryData = await Category.destroy({
       where: {
         id: req.params.id
